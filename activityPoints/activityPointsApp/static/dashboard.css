@@ -1,0 +1,179 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #E1F5FE;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #5ba6d1;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.app-name {
+    font-size: 24px;
+    color: white;
+}
+
+.nav {
+    display: flex;
+}
+
+.nav-item {
+    margin-left: 20px;
+    padding: 10px 20px;
+    background-color: #0277BD;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    background-color: #155d7c;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    background-color: #B3E5FC;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.main-content {
+    width: 65%;
+    background-color: #81D4FA;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.announcements {
+    width: 30%;
+    background-color: #81D4FA;
+    border-radius: 10px;
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 600px;
+}
+
+.announcement-list {
+    margin-top: 20px;
+}
+
+.announcement {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #4FC3F7;
+    border-radius: 10px;
+}
+
+.announcement h4 {
+    margin-bottom: 5px;
+}
+
+.announcement p {
+    margin-bottom: 5px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="file"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="file"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.error {
+    color: red;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.my-activities-btn {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.my-activities-btn a {
+    color: white;
+    text-decoration: none;
+}
+
+.logout-btn {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    padding: 10px;
+    background-color: #1e82ad;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    background-color: #155d7c;
+}

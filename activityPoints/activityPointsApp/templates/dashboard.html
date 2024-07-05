@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="app-name">Student Activity Tracker</div>
+            <div class="nav">
+                <div class="nav-item">Home</div>
+                <div class="nav-item">Profile</div>
+                <div class="nav-item">Log out</div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="main-content">
+                <h2>Submit Activity Information</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="category">Select Activity Category:</label>
+                        <select id="category" name="category" required>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Describe your activity briefly:</label>
+                        <textarea name="description" id="description" rows="5" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="start_date">Starting Date:</label>
+                        <input type="date" id="start_date" name="start_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="end_date">Date of Completion:</label>
+                        <input type="date" id="end_date" name="end_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cert_file">Upload Certificate:</label>
+                        <input type="file" id="cert_file" name="cert_file">
+                    </div>
+                    <button type="submit" class="btn">Submit</button>
+                </form>
+                {% if error %}
+                    <p class="error">{{ error }}</p>
+                {% endif %}
+                <button class="my-activities-btn"><a href="{% url 'studentActivities' request.session.student_id %}">My Activities</a></button>
+            </div>
+            <div class="announcements">
+                {% if announcements %}
+                    <h3>Announcements</h3>
+                    <div class="announcement-list">
+                        {% for announcement in announcements %}
+                            <div class="announcement">
+                                <h4>{{ announcement.title }}</h4>
+                                <p>{{ announcement.content }}</p>
+                                <p><small>{{ announcement.posted_by }}, {{ announcement.date_posted }}</small></p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

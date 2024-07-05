@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="{% static 'teacher_dashboard.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Teacher Dashboard</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="usn">Enter USN:</label>
+            <input type="text" id="usn" name="usn" required>
+            <button type="submit">Search Student</button>
+        </form>
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+
+        <div class="table-container">
+            <table class="students-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>USN</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.usn }}</td>
+                        <td><a href="{% url 'studentActivities' student.id %}">View Activities</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="actions">
+            <a href="{% url 'manageCategories' %}" class="action-link">Manage Categories</a>
+            <a href="{% url 'create_announcement' %}" class="action-link">Make an Announcement</a>
+            <a href="{% url 'manage_announcements' %}" class="action-link">Manage Announcements</a>
+            <a href="{% url 'logout' %}" class="action-link">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Announcements</title>
+</head>
+<body>
+    <h2>Manage Announcements</h2>
+    <ul>
+        {% for announcement in announcements %}
+            <li>{{ announcement.title }} - {{ announcement.date_posted }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'create_announcement' %}">Create New Announcement</a>
+    <a href="{% url 'teacherDashboard' %}">Back to Dashboard</a>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Categories</title>
+    <link rel="stylesheet" href="{% static 'manage_categories.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Manage Activity Categories</h2>
+        <form method="post" class="form-container">
+            {% csrf_token %}
+            <label for="category_name">Add Category:</label>
+            <input type="text" id="category_name" name="category_name" required>
+            <button type="submit" name="add_category">Add Category</button>
+        </form>
+
+        <h3>Existing Categories</h3>
+        <ul class="category-list">
+            {% for category in categories %}
+                <li class="category-item">
+                    {{ category.name }}
+                    <form method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="category_id" value="{{ category.id }}">
+                        <button type="submit" name="delete_category" class="delete-button">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'logout' %}" class="logout-link">Logout</a>
+    </div>
+</body>
+</html>
