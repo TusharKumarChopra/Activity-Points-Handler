@@ -12,9 +12,9 @@
         <div class="header">
             <div class="app-name">Student Activity Tracker</div>
             <div class="nav">
-                <div class="nav-item">Home</div>
-                <div class="nav-item">Profile</div>
-                <div class="nav-item">Log out</div>
+                <a class="nav-item" href="#">Home</a>
+                <a class="nav-item" href="#">Profile</a>
+                <a class="nav-item" href="{% url 'logout' %}">Log out</a>
             </div>
         </div>
         <div class="content">
@@ -51,7 +51,7 @@
                 {% if error %}
                     <p class="error">{{ error }}</p>
                 {% endif %}
-                <button class="my-activities-btn"><a href="{% url 'studentActivities' request.session.student_id %}">My Activities</a></button>
+                <div class="my-activities-btn"><a href="{% url 'studentActivities' request.session.student_id %}">My Activities</a></div>
             </div>
             <div class="announcements">
                 {% if announcements %}
