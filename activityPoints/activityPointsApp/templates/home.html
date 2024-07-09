@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Activity Points Tracker</title>
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="app-name">Student Activity Points Tracker</div>
+            <div class="nav">
+                <a class="nav-item" href="{% url 'home' %}">Home</a>
+            </div>
+        </div>
+        <main>
+            <section class="intro">
+                <h1>Welcome to Student Activity Points Tracker</h1>
+                <p>Your one-stop solution for tracking and managing student activities and points.</p>
+            </section>
+            <section class="user-options">
+                <div class="option">
+                    <h3>Teacher</h3>
+                    <p>Login or Register as a Teacher</p>
+                    <a href="{% url 'loginTeacher' %}" class="btn">Login</a>
+                </div>
+                <div class="option">
+                    <h3>Student</h3>
+                    <p>Login or Register as a Student</p>
+                    <a href="{% url 'login' %}" class="btn">Login</a>
+                    <a href="{% url 'register' %}" class="btn">Register</a>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 Student Activity Points Tracker. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

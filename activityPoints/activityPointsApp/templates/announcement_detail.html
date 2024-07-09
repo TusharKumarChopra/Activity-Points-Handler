@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcement Detail</title>
+    <link rel="stylesheet" href="{% static 'announcement_detail.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>{{ announcement.title }}</h2>
+        <p>{{ announcement.content }}</p>
+        
+        {% if announcement.activity_link %}
+            <a href="{{ announcement.activity_link }}" target="_blank" class="activity-link">View Activity Details</a>
+        {% else %}
+            <p class="no-link">No activity link provided.</p>
+        {% endif %}
+
+        <p class="posted-by">Posted by: {{ announcement.posted_by }}</p>
+        <p class="posted-on">Posted on: {{ announcement.date_posted }}</p>
+        {% if request.session.teacher_email %}
+            <a href="{% url 'manage_announcements' %}" class="back-link">Back to Announcements</a>
+        {% else %}
+            <a href="{% url "dashboard" %}" class="back-link">Back to Dashboard</a>
+        {% endif %}
+    </div>
+</body>
+</html>

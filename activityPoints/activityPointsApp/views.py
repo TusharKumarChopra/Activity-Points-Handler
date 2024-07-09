@@ -3,6 +3,9 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.utils.dateparse import parse_date
 from .models import Activity, Student, ActivityCategory, Announcement, Teacher
 
+def home(request):
+    return render(request, 'home.html')
+
 def dashboard(request):
     if 'student_id' not in request.session:
         return redirect('login')
@@ -185,6 +188,7 @@ def create_announcement(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         content = request.POST.get('content')
+        activity_link = request.POST.get('activity_link')
         try:
             teacher = Teacher.objects.get(email=request.session['teacher_email'])
         except Teacher.DoesNotExist:
@@ -193,7 +197,8 @@ def create_announcement(request):
         announcement = Announcement(
             title=title,
             content=content,
-            posted_by=teacher
+            posted_by=teacher,
+            activity_link = activity_link
         )
         announcement.save()
 
@@ -229,4 +234,9 @@ def delete_announcement(request, announcement_id):
         return redirect('manage_announcements')
 
     return render(request, 'confirm_delete.html', {'announcement': announcement})
+
+def activity_detail(request, announcement_id):
+    announcement = get_object_or_404(Announcement, id=announcement_id)
+    # Render a template that shows the detailed view of the activity using announcement.activity_link
+    return render(request, 'announcement_detail.html', {'announcement': announcement})
 

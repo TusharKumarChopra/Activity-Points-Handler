@@ -53,7 +53,9 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
+    text-decoration: none;
 }
+
 
 .nav-item:hover {
     background-color: #1abc9c;

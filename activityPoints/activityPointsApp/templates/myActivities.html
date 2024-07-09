@@ -12,14 +12,14 @@
         <div class="header">
             <div class="app-name">Student Activity Tracker</div>
             <div class="nav">
-                <div class="nav-item">Home</div>
-                <div class="nav-item">Profile</div>
-                <div class="nav-item">Log out</div>
+                <a class="nav-item" href="{% url "home" %}">Home</a>
+                <a class="nav-item" href="{% url 'logout' %}">Log out</a>
             </div>
         </div>
         <div class="content">
             <div class="main-content">
                 <h2>Activities for {{ student.name }} (USN: {{ student.usn }})</h2>
+                {% if activities %}
                 <table>
                     <thead>
                         <tr>
@@ -64,6 +64,9 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                    <p style="font-size: 24px; text-align: center; margin: 5%;">No Activities!</p>
+                {% endif %}
                 <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
             </div>
         </div>

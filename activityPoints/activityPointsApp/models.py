@@ -57,6 +57,7 @@ class Announcement(models.Model):
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     posted_by = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    activity_link = models.URLField(blank=True, null=True)  # Link related to an activity
 
     def __str__(self):
         return self.title

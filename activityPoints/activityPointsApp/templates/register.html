@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="{% static 'register.css' %}">
 </head>
 <body>
+    <div class="header">
+        <div class="app-name">Student Activity Points Tracker</div>
+        <div class="nav">
+            <a class="nav-item" href="{% url 'home' %}">Home</a>
+            <a class="nav-item" href="{% url 'login' %}">Login</a>
+        </div>
+    </div>
     <div class="container">
         <div class="card">
             <h2>Register</h2>
@@ -59,6 +66,9 @@
             {% if error %}
                 <p class="error">{{ error }}</p>
             {% endif %}
+            <div class="login-link">
+                Have an account? <a href="{% url 'login' %}" class="link">Login</a>
+            </div>
         </div>
     </div>
 </body>

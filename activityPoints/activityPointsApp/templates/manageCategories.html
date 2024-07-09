@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="{% static 'manage_categories.css' %}">
 </head>
 <body>
+    <div class="header">
+        <div class="app-name">Student Activity Points Tracker</div>
+        <div class="nav">
+            <a class="nav-item" href="{% url 'home' %}">Home</a>
+            <a class="nav-item" href="{% url 'logout' %}">Log out</a>
+        </div>
+    </div>
+
     <div class="container">
         <h2>Manage Activity Categories</h2>
         <form method="post" class="form-container">
@@ -30,7 +38,7 @@
                 </li>
             {% endfor %}
         </ul>
-        <a href="{% url 'logout' %}" class="logout-link">Logout</a>
+        <a href="{% url 'teacherDashboard' %}" class="logout-link">Back to Dashboard</a>
     </div>
 </body>
 </html>
