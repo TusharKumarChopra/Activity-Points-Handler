@@ -8,14 +8,21 @@
 
 body {
     background-color: #f9f9fb;
-    padding: 20px;
+    padding: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+    overflow: hidden;
 }
 
 /* Container Styles */
 .container {
     width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Header Styles */
@@ -24,13 +31,13 @@ body {
     justify-content: space-between;
     align-items: center;
     background-color: #34495e;
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .app-name {
-    font-size: 28px;
+    font-size: 24px;
     color: #ecf0f1;
     font-weight: bold;
 }
@@ -40,8 +47,8 @@ body {
 }
 
 .nav-item {
-    margin-left: 20px;
-    padding: 10px 20px;
+    margin-left: 10px;
+    padding: 5px 10px;
     background-color: #2c3e50;
     color: #ecf0f1;
     border-radius: 5px;
@@ -58,8 +65,10 @@ body {
     display: flex;
     justify-content: space-between;
     background-color: #ecf0f1;
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
+    flex-grow: 1;
+    overflow: hidden;
 }
 
 /* Main Content Styles */
@@ -67,24 +76,26 @@ body {
     width: 65%;
     background-color: #ffffff;
     border-radius: 10px;
-    padding: 20px;
+    padding: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 100%;
 }
 
 h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     color: #34495e;
 }
 
 /* Form Group Styles */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     font-weight: bold;
     color: #34495e;
 }
@@ -95,10 +106,10 @@ input[type="file"],
 textarea,
 select {
     width: 100%;
-    padding: 12px;
+    padding: 8px;
     border: 1px solid #bdc3c7;
     border-radius: 6px;
-    font-size: 16px;
+    font-size: 14px;
     transition: border-color 0.3s;
 }
 
@@ -118,12 +129,12 @@ textarea {
 /* Button Styles */
 .btn {
     width: 100%;
-    padding: 15px;
+    padding: 10px;
     background-color: #1abc9c;
     border: none;
     border-radius: 6px;
     color: white;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -135,15 +146,24 @@ textarea {
 /* Error Message Styles */
 .error {
     color: #e74c3c;
-    margin-top: 20px;
-    font-size: 14px;
+    margin-top: 10px;
+    font-size: 12px;
     text-align: center;
 }
 
 /* My Activities Button Styles */
 .my-activities-btn {
-    margin-top: 20px;
+    margin-top: 10px;
     text-align: center;
+    width: 20%;
+    padding: 10px;
+    background-color: #34495e;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .my-activities-btn a {
@@ -156,18 +176,18 @@ textarea {
     width: 30%;
     background-color: #ffffff;
     border-radius: 10px;
-    padding: 20px;
+    padding: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
-    max-height: 600px;
+    max-height: 100%;
 }
 
 .announcement-list {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .announcement {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding: 10px;
     background-color: #ecf0f1;
     border-radius: 10px;
@@ -187,7 +207,7 @@ textarea {
 /* Logout Button Styles */
 .logout-btn {
     display: block;
-    margin-top: 20px;
+    margin-top: 10px;
     text-align: center;
     padding: 10px;
     background-color: #e74c3c;

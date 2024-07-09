@@ -1,16 +1,46 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Announcements</title>
+    <link rel="stylesheet" href="{% static 'manage_announcements.css' %}">
 </head>
 <body>
-    <h2>Manage Announcements</h2>
-    <ul>
-        {% for announcement in announcements %}
-            <li>{{ announcement.title }} - {{ announcement.date_posted }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'create_announcement' %}">Create New Announcement</a>
-    <a href="{% url 'teacherDashboard' %}">Back to Dashboard</a>
+    <div class="container">
+        <h2>Manage Announcements</h2>
+        {% if announcements %}
+        <table class="announcements-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Posted By</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for announcement in announcements %}
+                <tr>
+                    <td>{{ announcement.title }}</td>
+                    <td>{{ announcement.content }}</td>
+                    <td>{{ announcement.posted_by.name }}</td>
+                    <td>
+                        <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="announcement_id" value="{{ announcement.id }}">
+                            <button type="submit" name="delete_announcement" class="delete-button">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                    No Announcements as of now! <br>
+                {% endif %}
+            </tbody>
+        </table>
+        <a href="{% url 'teacherDashboard' %}" class="back-link">Back to Dashboard</a>
+    </div>
 </body>
 </html>

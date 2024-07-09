@@ -206,5 +206,27 @@ def manage_announcements(request):
     if 'teacher_email' not in request.session:
         return redirect('loginTeacher')
 
-    announcements = Announcement.objects.filter(posted_by__email=request.session['teacher_email'])
+    teacher_email = request.session['teacher_email']
+    announcements = Announcement.objects.filter(posted_by__email=teacher_email)
+
+    if request.method == 'POST' and 'delete_announcement' in request.POST:
+        announcement_id = request.POST.get('announcement_id')
+        announcement = get_object_or_404(Announcement, id=announcement_id, posted_by__email=teacher_email)
+        announcement.delete()
+        return redirect('manage_announcements')
+
     return render(request, 'manage_announcements.html', {'announcements': announcements})
+
+def delete_announcement(request, announcement_id):
+    if 'teacher_email' not in request.session:
+        return redirect('loginTeacher')
+
+    teacher_email = request.session['teacher_email']
+    announcement = get_object_or_404(Announcement, id=announcement_id, posted_by__email=teacher_email)
+    
+    if request.method == 'POST':
+        announcement.delete()
+        return redirect('manage_announcements')
+
+    return render(request, 'confirm_delete.html', {'announcement': announcement})
+

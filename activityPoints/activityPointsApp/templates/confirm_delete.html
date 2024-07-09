@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirm Delete</title>
+</head>
+<body>
+    <h2>Are you sure you want to delete this announcement?</h2>
+    <p>Title: {{ announcement.title }}</p>
+    <p>Content: {{ announcement.content }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, delete</button>
+    </form>
+    <a href="{% url 'manage_announcements' %}">Cancel</a>
+</body>
+</html>
