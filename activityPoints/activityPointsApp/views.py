@@ -2,44 +2,59 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils.dateparse import parse_date
 from .models import Activity, Student, ActivityCategory, Announcement, Teacher
+from .forms import ActivityForm
+
 
 def home(request):
     return render(request, 'home.html')
 
-def dashboard(request):
+def dashboard(request, activity_id=None):
     if 'student_id' not in request.session:
         return redirect('login')
 
     student_id = request.session['student_id']
-    student = Student.objects.get(id=student_id)
+    student = get_object_or_404(Student, id=student_id)
     categories = ActivityCategory.objects.all()
+    activity = None
+
+    if activity_id:
+        activity = get_object_or_404(Activity, id=activity_id, student=student)
 
     if request.method == 'POST':
-        category_id = request.POST.get('category')
-        description = request.POST.get('description')
-        start_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
-        cert_file = request.FILES.get('cert_file')
+        category_id = request.POST['category']
+        description = request.POST['description']
+        date_started = request.POST['start_date']
+        date_completed = request.POST['end_date']
+        cert_file = request.FILES.get('cert_file', None)
 
         category = get_object_or_404(ActivityCategory, id=category_id)
 
-        activity = Activity(
-            student=student,
-            category=category,
-            description=description,
-            date_started=parse_date(start_date),
-            date_completed=parse_date(end_date),
-            cert_file=cert_file
-        )
-        activity.save()
-
-        return redirect('dashboard')
-    
-    activities = student.activities.all()
+        if activity:
+            activity.category = category
+            activity.description = description
+            activity.date_started = date_started
+            activity.date_completed = date_completed
+            if cert_file:
+                activity.cert_file = cert_file
+            activity.save()
+        else:
+            Activity.objects.create(
+                student=student,
+                category=category,
+                description=description,
+                date_started=date_started,
+                date_completed=date_completed,
+                cert_file=cert_file
+            )
+        
+        return redirect('studentActivities', student_id=student.id)
     announcements = Announcement.objects.all()
 
-    return render(request, 'dashboard.html', {'categories': categories, 'activities': activities, 'announcements': announcements})
-
+    return render(request, 'dashboard.html', {
+        'categories': categories,
+        'activity': activity,
+        'announcements': announcements
+    })
 
 def register(request):
     if request.method == 'POST':
@@ -187,7 +202,8 @@ def create_announcement(request):
 
     if request.method == 'POST':
         title = request.POST.get('title')
-        content = request.POST.get('content')
+        details = request.POST.get('details')
+        desciption = request.POST.get('description')
         activity_link = request.POST.get('activity_link')
         try:
             teacher = Teacher.objects.get(email=request.session['teacher_email'])
@@ -196,7 +212,8 @@ def create_announcement(request):
 
         announcement = Announcement(
             title=title,
-            content=content,
+            details=details,
+            desciption = desciption,
             posted_by=teacher,
             activity_link = activity_link
         )
@@ -239,4 +256,11 @@ def activity_detail(request, announcement_id):
     announcement = get_object_or_404(Announcement, id=announcement_id)
     # Render a template that shows the detailed view of the activity using announcement.activity_link
     return render(request, 'announcement_detail.html', {'announcement': announcement})
+
+# def addActivity(request, announcement_id):
+#     if request.method == 'POST':
+#         student_id = request.session['student_id']
+#         announcement_id = announcement_id
+
+        
 

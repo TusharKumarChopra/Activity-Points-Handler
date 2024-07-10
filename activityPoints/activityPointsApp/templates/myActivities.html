@@ -32,6 +32,8 @@
                             <th>Points</th>
                             {% if request.session.teacher_email %}
                             <th>Assign Points</th>
+                            {% else %}
+                            <th>Edit</th>
                             {% endif %}
                         </tr>
                     </thead>
@@ -55,9 +57,13 @@
                                 <td>
                                     <form method="post" action="{% url 'assignPoints' activity.id %}">
                                         {% csrf_token %}
-                                        <input type="number" name="points" value="{{ activity.points }}" required>
+                                        <input type="number" name="points" value="{{ activity.points }}" required style="margin-bottom: 7%;">
                                         <button type="submit">Assign</button>
                                     </form>
+                                </td>
+                                {% else %}
+                                <td>
+                                    <a href="{% url 'dashboard' activity.id %}"><button type="submit">Edit</button></a>
                                 </td>
                                 {% endif %}
                             </tr>

@@ -9,6 +9,7 @@ urlpatterns = [
     path('logout/', logout, name='logout'),  # Add the logout URL
     path('login/', login, name='login'),
     path('dashboard/', dashboard, name='dashboard'),
+    path('dashboard/<int:activity_id>/', dashboard, name='dashboard'),
     path('activities/<int:student_id>/', studentActivities, name='studentActivities'),
     path('teacher/login/', loginTeacherView, name='loginTeacher'),
     path('teacher/dashboard/', teacherDashboard, name='teacherDashboard'),

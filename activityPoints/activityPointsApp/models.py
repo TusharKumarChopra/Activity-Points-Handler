@@ -41,10 +41,10 @@ class ActivityCategory(models.Model):
 
 class Activity(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='activities')
-    category = models.ForeignKey(ActivityCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(ActivityCategory, on_delete=models.CASCADE, default='Social Work')
     description = models.TextField()
-    date_started = models.DateField()
-    date_completed = models.DateField()
+    date_started = models.DateField(null=True)
+    date_completed = models.DateField(null=True)
     cert_file = models.FileField(upload_to='activity_certificates/', blank=True, null=True)
     upload_time = models.DateTimeField(default=timezone.now)
     points = models.IntegerField(default=0)
@@ -54,7 +54,8 @@ class Activity(models.Model):
     
 class Announcement(models.Model):
     title = models.CharField(max_length=255)
-    content = models.TextField()
+    details = models.TextField()
+    description = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     posted_by = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     activity_link = models.URLField(blank=True, null=True)  # Link related to an activity
