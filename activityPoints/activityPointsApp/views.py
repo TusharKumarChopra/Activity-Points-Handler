@@ -203,7 +203,7 @@ def create_announcement(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         details = request.POST.get('details')
-        desciption = request.POST.get('description')
+        description = request.POST.get('description')
         activity_link = request.POST.get('activity_link')
         try:
             teacher = Teacher.objects.get(email=request.session['teacher_email'])
@@ -213,7 +213,7 @@ def create_announcement(request):
         announcement = Announcement(
             title=title,
             details=details,
-            desciption = desciption,
+            description = description,
             posted_by=teacher,
             activity_link = activity_link
         )
@@ -257,10 +257,23 @@ def activity_detail(request, announcement_id):
     # Render a template that shows the detailed view of the activity using announcement.activity_link
     return render(request, 'announcement_detail.html', {'announcement': announcement})
 
-# def addActivity(request, announcement_id):
-#     if request.method == 'POST':
-#         student_id = request.session['student_id']
-#         announcement_id = announcement_id
+def addActivity(request, announcement_id):
+    if request.method == 'POST':
+        student_id = request.session['student_id']
+        announcement_id = announcement_id
+
+        student = get_object_or_404(Student, id=student_id)
+        activity = get_object_or_404(Announcement, id=announcement_id)
+        description = activity.description
+        Activity.objects.create(
+            student=student,
+            description=description
+        )
+
+        return redirect('studentActivities', student_id=student.id)
+    
+    return redirect('announcement_detail', announcement_id=announcement_id)
+
 
         
 

@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.urls import path
-from .views import activity_detail, dashboard, logout, register, login, studentActivities, loginTeacherView, teacherDashboard, assignPoints, manage_categories, create_announcement, manage_announcements, delete_announcement, home
+from .views import activity_detail, addActivity, dashboard, logout, register, login, studentActivities, loginTeacherView, teacherDashboard, assignPoints, manage_categories, create_announcement, manage_announcements, delete_announcement, home
 from django.conf.urls.static import static
 
 
@@ -18,7 +18,8 @@ urlpatterns = [
     path('create_announcement/', create_announcement, name='create_announcement'),
     path('manage_announcements/', manage_announcements, name='manage_announcements'),
     path('delete_announcement/<int:announcement_id>/', delete_announcement, name='delete_announcement'),
-    path('announcement_info/<int:announcement_id>/', activity_detail, name='activity_detail')
+    path('announcement_info/<int:announcement_id>/', activity_detail, name='activity_detail'),
+    path('addActivity/<int:announcement_id>/', addActivity, name='addActivity')
 ]
 
 if settings.DEBUG:

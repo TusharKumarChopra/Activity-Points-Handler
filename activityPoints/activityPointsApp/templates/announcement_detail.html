@@ -31,7 +31,11 @@
         {% if request.session.teacher_email %}
             <a href="{% url 'manage_announcements' %}" class="back-link">Back to Announcements</a>
         {% else %}
-            <a href="" class="back-link">Register</a><br>
+            <form method="post" action="{% url 'addActivity' announcement.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="back-link">Register</button>
+            </form>    
+            <br>
             <a href="{% url "dashboard" %}" class="back-link">Back to Dashboard</a>
         {% endif %}
     </div>
