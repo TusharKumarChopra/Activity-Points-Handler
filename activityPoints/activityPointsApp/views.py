@@ -143,18 +143,31 @@ def teacherDashboard(request):
     if 'teacher_email' not in request.session:
         return redirect('loginTeacher')
 
+    students = None
+    filter_students = request.session.get('filter_students', False)
+
     if request.method == 'POST':
         usn = request.POST.get('usn')
-        try:
-            student = Student.objects.get(usn=usn)
-            students = [student]
-        except Student.DoesNotExist:
-            return render(request, 'teacherDashboard.html', {'error': 'Student with this USN does not exist'})
-    
+        if usn:
+            try:
+                student = Student.objects.get(usn=usn)
+                students = [student]
+            except Student.DoesNotExist:
+                return render(request, 'teacherDashboard.html', {'error': 'Student with this USN does not exist'})
+        elif 'filter' in request.POST:
+            if filter_students:
+                # Show all students
+                students = Student.objects.all().order_by('usn')
+                request.session['filter_students'] = False
+            else:
+                # Show students without activities
+                students_without_activities = Student.objects.exclude(activities__isnull=False).order_by('usn')
+                students = students_without_activities.values('name', 'usn', 'sem', 'sec')  # Select specific fields
+                request.session['filter_students'] = True
     else:
         students = Student.objects.all().order_by('usn')
 
-    return render(request, 'teacherDashboard.html', {'students': students})
+    return render(request, 'teacherDashboard.html', {'students': students, 'filter_students': filter_students})
 
 def assignPoints(request, activity_id):
     if 'teacher_email' not in request.session:

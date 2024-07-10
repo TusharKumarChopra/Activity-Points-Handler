@@ -10,12 +10,21 @@
 <body>
     <div class="container">
         <h2>Teacher Dashboard</h2>
-        <form method="post">
-            {% csrf_token %}
-            <label for="usn">Enter USN:</label>
-            <input type="text" id="usn" name="usn" required>
-            <button type="submit">Search Student</button>
-        </form>
+        <div class="form-buttons">
+            <form method="post" class="form-inline">
+                {% csrf_token %}
+                <label for="usn">Enter USN:</label>
+                <input type="text" id="usn" name="usn" required>
+                <button type="submit">Search Student</button>
+            </form>
+            <form method="post" class="form-inline">
+                {% csrf_token %}
+                <button type="submit" name="filter">Filter Students Without Activities</button>
+            </form>
+        </div>
+        {% if not filter_students %}
+            <p class="error-message">These students are not registered to any activity</p>
+        {% endif %}
         {% if error %}
             <p class="error-message">{{ error }}</p>
         {% endif %}
@@ -26,7 +35,11 @@
                     <tr>
                         <th>Name</th>
                         <th>USN</th>
-                        <th>Action</th>
+                        <th>Sem</th>
+                        <th>Sec</th>
+                        {% if filter_students %}
+                            <th>Action</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -34,8 +47,19 @@
                     <tr>
                         <td>{{ student.name }}</td>
                         <td>{{ student.usn }}</td>
-                        <td><a href="{% url 'studentActivities' student.id %}">View Activities</a></td>
+                        <td>{{ student.sem }}</td>
+                        <td>{{ student.sec }}</td>
+                        {% if filter_students %}
+                            <td><a href="{% url 'studentActivities' student.id %}">View Activities</a></td>
+                        {% endif %}
                     </tr>
+
+                    {% empty %}
+                    {% if filter_students %}
+                    <tr>
+                        <td colspan="4">No students without activities found.</td>
+                    </tr>
+                    {% endif %}
                     {% endfor %}
                 </tbody>
             </table>

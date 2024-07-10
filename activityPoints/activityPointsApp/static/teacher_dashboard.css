@@ -33,21 +33,27 @@ h2 {
 }
 
 /* Form Styles */
-form {
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 20px;
 }
 
+.form-inline {
+    display: flex;
+    align-items: center;
+}
+
 label {
-    display: block;
-    margin-bottom: 5px;
+    margin-right: 10px;
     text-align: left;
     color: #34495e;
 }
 
 input[type="text"] {
-    width: 100%;
+    width: 600px; /* Adjust as per your design */
     padding: 10px;
-    margin-bottom: 15px;
+    margin-right: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
