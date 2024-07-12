@@ -18,7 +18,7 @@
     <div class="container">
         <h2>{{ announcement.title }}</h2>
         <p>{{ announcement.details }}</p>
-        <p>{{ announcement.description }}</p>
+        <b><p>{{ announcement.description }}</p></b>
         
         {% if announcement.activity_link %}
             <a href="{{ announcement.activity_link }}" target="_blank" class="activity-link">View Activity Details</a>
@@ -28,15 +28,18 @@
 
         <p class="posted-by">Posted by: {{ announcement.posted_by }}</p>
         <p class="posted-on">Posted on: {{ announcement.date_posted }}</p>
-        {% if request.session.teacher_email %}
-            <a href="{% url 'manage_announcements' %}" class="back-link">Back to Announcements</a>
-        {% else %}
-            <form method="post" action="{% url 'addActivity' announcement.id %}">
+        
+        {% if request.session.student_id %}
+            {% if not student_registered %}
+                <form method="post" action="{% url 'addActivity' announcement.id %}">
                     {% csrf_token %}
                     <button type="submit" class="back-link">Register</button>
-            </form>    
+                </form>
+            {% else %}
+                <p class="no-link">You have already registered for this activity.</p>
+            {% endif %}
             <br>
-            <a href="{% url "dashboard" %}" class="back-link">Back to Dashboard</a>
+            <a href="{% url 'dashboard' %}" class="back-link">Back to Dashboard</a>
         {% endif %}
     </div>
 </body>

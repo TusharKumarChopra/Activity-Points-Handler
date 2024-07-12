@@ -18,31 +18,39 @@
         </div>
         <div class="content">
             <div class="main-content">
-                <h2>Submit Activity Information</h2>
+                {% if activity %}
+                    <h2>Edit Activity</h2>
+                {% else %}
+                    <h2>Submit Activity Information</h2>
+                {% endif %}
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="category">Select Activity Category:</label>
+                        <label for="title" style="font-size: 14px">Activity Title:</label>
+                        <input type="text" id="title" name="title" value="{{ activity.title|default_if_none:'' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category" style="font-size: 14px">Select Activity Category:</label>
                         <select id="category" name="category" required>
                             {% for category in categories %}
-                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                <option value="{{ category.id }}" {% if activity and category.id == activity.category_id %} selected {% endif %}>{{ category.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="description">Describe your activity briefly:</label>
-                        <textarea name="description" id="description" rows="5" required></textarea>
+                        <label for="description" style="font-size: 14px">Describe your activity briefly:</label>
+                        <textarea name="description" id="description" rows="1" required>{{ activity.description|default_if_none:'' }}</textarea>
                     </div>
                     <div class="form-group">
-                        <label for="start_date">Starting Date:</label>
-                        <input type="date" id="start_date" name="start_date" required>
+                        <label for="start_date" style="font-size: 14px">Starting Date:</label>
+                        <input type="date" id="start_date" name="start_date" value="{{ activity.date_started|default_if_none:'' }}" required>
                     </div>
                     <div class="form-group">
-                        <label for="end_date">Date of Completion:</label>
-                        <input type="date" id="end_date" name="end_date" required>
+                        <label for="end_date" style="font-size: 14px">Date of Completion:</label>
+                        <input type="date" id="end_date" name="end_date" value="{{ activity.date_completed|default_if_none:'' }}" required>
                     </div>
                     <div class="form-group">
-                        <label for="cert_file">Upload Certificate:</label>
+                        <label for="cert_file" style="font-size: 14px">Upload Certificate:</label>
                         <input type="file" id="cert_file" name="cert_file">
                     </div>
                     <button type="submit" class="btn">Submit</button>

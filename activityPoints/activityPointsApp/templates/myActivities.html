@@ -20,58 +20,62 @@
             <div class="main-content">
                 <h2>Activities for {{ student.name }} (USN: {{ student.usn }})</h2>
                 {% if activities %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Description</th>
-                            <th>Date Started</th>
-                            <th>Date Completed</th>
-                            <th>Certificate File</th>
-                            <th>Upload Time</th>
-                            <th>Points</th>
-                            {% if request.session.teacher_email %}
-                            <th>Assign Points</th>
-                            {% else %}
-                            <th>Edit</th>
-                            {% endif %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for activity in activities %}
+                <div class="table-container">
+                    <table>
+                        <thead>
                             <tr>
-                                <td>{{ activity.category }}</td>
-                                <td>{{ activity.description }}</td>
-                                <td>{{ activity.date_started }}</td>
-                                <td>{{ activity.date_completed }}</td>
-                                <td>
-                                    {% if activity.cert_file %}
-                                        <a href="{{ activity.cert_file.url }}" target="_blank">Download File</a>
-                                    {% else %}
-                                        No File
-                                    {% endif %}
-                                </td>
-                                <td>{{ activity.upload_time }}</td>
-                                <td>{{ activity.points }}</td>
+                                <th>Category</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Date Started</th>
+                                <th>Date Completed</th>
+                                <th>Certificate File</th>
+                                <th>Upload Time</th>
+                                <th>Points</th>
                                 {% if request.session.teacher_email %}
-                                <td>
-                                    <form method="post" action="{% url 'assignPoints' activity.id %}">
-                                        {% csrf_token %}
-                                        <input type="number" name="points" value="{{ activity.points }}" required style="margin-bottom: 7%;">
-                                        <button type="submit">Assign</button>
-                                    </form>
-                                </td>
+                                <th>Assign Points</th>
                                 {% else %}
-                                <td>
-                                    <a href="{% url 'dashboard' activity.id %}"><button type="submit">Edit</button></a>
-                                </td>
+                                <th>Edit</th>
                                 {% endif %}
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for activity in activities %}
+                                <tr>
+                                    <td>{{ activity.category }}</td>
+                                    <td>{{ activity.title }}</td>
+                                    <td>{{ activity.description }}</td>
+                                    <td>{{ activity.date_started }}</td>
+                                    <td>{{ activity.date_completed }}</td>
+                                    <td>
+                                        {% if activity.cert_file %}
+                                            <a href="{{ activity.cert_file.url }}" target="_blank">Download File</a>
+                                        {% else %}
+                                            No File
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ activity.upload_time }}</td>
+                                    <td>{{ activity.points }}</td>
+                                    {% if request.session.teacher_email %}
+                                    <td>
+                                        <form method="post" action="{% url 'assignPoints' activity.id %}">
+                                            {% csrf_token %}
+                                            <input type="number" name="points" value="{{ activity.points }}" required>
+                                            <button type="submit">Assign</button>
+                                        </form>
+                                    </td>
+                                    {% else %}
+                                    <td>
+                                        <a href="{% url 'dashboard' activity.id %}"><button type="button">Edit</button></a>
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
                 {% else %}
-                    <p style="font-size: 24px; text-align: center; margin: 5%;">No Activities!</p>
+                    <p class="no-activities-msg">No Activities!</p>
                 {% endif %}
                 <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
             </div>

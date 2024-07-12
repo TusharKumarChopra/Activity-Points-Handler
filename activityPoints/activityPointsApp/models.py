@@ -41,6 +41,7 @@ class ActivityCategory(models.Model):
 
 class Activity(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='activities')
+    title = models.CharField(max_length=50)
     category = models.ForeignKey(ActivityCategory, on_delete=models.CASCADE, default=1)
     description = models.TextField()
     date_started = models.DateField(null=True)

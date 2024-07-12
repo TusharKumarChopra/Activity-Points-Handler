@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 .DS_Store
 activityPoints/media
+activityPoints/activityPointsApp/data.xlsx
+activityPoints/activityPointsApp/script.py

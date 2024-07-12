@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils.dateparse import parse_date
 from .models import Activity, Student, ActivityCategory, Announcement, Teacher
-from .forms import ActivityForm
+# from .forms import ActivityForm
 
 
 def home(request):
@@ -10,49 +10,45 @@ def home(request):
 
 def dashboard(request, activity_id=None):
     if 'student_id' not in request.session:
-        return redirect('login')
-
+        return redirect('login')  # Redirect to login if not authenticated
+    
     student_id = request.session['student_id']
     student = get_object_or_404(Student, id=student_id)
     categories = ActivityCategory.objects.all()
     activity = None
-
+    
     if activity_id:
         activity = get_object_or_404(Activity, id=activity_id, student=student)
-
+    
     if request.method == 'POST':
-        category_id = request.POST['category']
-        description = request.POST['description']
-        date_started = request.POST['start_date']
-        date_completed = request.POST['end_date']
-        cert_file = request.FILES.get('cert_file', None)
-
-        category = get_object_or_404(ActivityCategory, id=category_id)
-
         if activity:
-            activity.category = category
-            activity.description = description
-            activity.date_started = date_started
-            activity.date_completed = date_completed
-            if cert_file:
-                activity.cert_file = cert_file
+            # Update existing activity
+            activity.category_id = request.POST['category']
+            activity.title = request.POST['title']
+            activity.description = request.POST['description']
+            activity.date_started = request.POST['start_date']
+            activity.date_completed = request.POST['end_date']
+            activity.cert_file = request.FILES.get('cert_file')
             activity.save()
         else:
+            # Create new activity
             Activity.objects.create(
                 student=student,
-                category=category,
-                description=description,
-                date_started=date_started,
-                date_completed=date_completed,
-                cert_file=cert_file
+                title=request.POST['title'],
+                category_id=request.POST['category'],
+                description=request.POST['description'],
+                date_started=request.POST['start_date'],
+                date_completed=request.POST['end_date'],
+                cert_file=request.FILES.get('cert_file')
             )
         
         return redirect('studentActivities', student_id=student.id)
+    
     announcements = Announcement.objects.all()
 
     return render(request, 'dashboard.html', {
-        'categories': categories,
         'activity': activity,
+        'categories': categories,
         'announcements': announcements
     })
 
@@ -267,8 +263,18 @@ def delete_announcement(request, announcement_id):
 
 def activity_detail(request, announcement_id):
     announcement = get_object_or_404(Announcement, id=announcement_id)
-    # Render a template that shows the detailed view of the activity using announcement.activity_link
-    return render(request, 'announcement_detail.html', {'announcement': announcement})
+    student = get_object_or_404(Student, id=request.session.get('student_id'))
+    
+    # Check if the student has already registered for this activity
+    student_registered = Activity.objects.filter(student=student, title=announcement.title).exists()
+
+    context = {
+        'announcement': announcement,
+        'student_registered': student_registered,
+        'request': request,  # Pass the request object to access session data
+    }
+
+    return render(request, 'announcement_detail.html', context)
 
 def addActivity(request, announcement_id):
     if request.method == 'POST':
@@ -278,9 +284,11 @@ def addActivity(request, announcement_id):
         student = get_object_or_404(Student, id=student_id)
         activity = get_object_or_404(Announcement, id=announcement_id)
         description = activity.description
+        title = activity.title
         Activity.objects.create(
             student=student,
-            description=description
+            title=title,
+            description=description, 
         )
 
         return redirect('studentActivities', student_id=student.id)
